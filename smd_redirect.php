@@ -304,6 +304,8 @@ jQuery(function() {
 
     jQuery("#smd_redirects").dragsort({
         dragSelector: ".smd_redir_grab",
+        dragSelectorExclude: ".smd_redir_no_drag",
+        itemSelector: "li:not(.smd_redir_no_drag)",
         dragEnd: function() {
             jQuery('#smd_redir_status').text('{$red_upd}');
             smd_redir_unedit(); // Remove any current edit status
@@ -321,6 +323,8 @@ jQuery(function() {
         key = me.text();
         val = me.next().text();
 
+        me.html('<label for="smd_redir_src" class="txp-accessibility">{$red_src}</label><input type="text" id="smd_redir_src" name="smd_redir_src" value="'+key+'" />');
+        me.next().html('<label for="smd_redir_dest" class="txp-accessibility">{$red_dst}</label><input type="text" id="smd_redir_dest" name="smd_redir_dest" value="'+val+'" />')
             .append('<div><button type="button" class="txp-button" id="smd_redir_save" name="smd_redir_save" onclick="smd_redir_save();" title="{$red_btn_sav_hint}">{$red_btn_sav}</button>&nbsp;<button type="button" class="txp-button" id="smd_redir_delete" name="smd_redir_delete" onclick="smd_redir_delete();" title="{$red_btn_del_hint}">{$red_btn_del}</button></div>');
         me.parent().parent().addClass('edited');
         me.find('input[name="smd_redir_src"]').focus();
@@ -430,6 +434,20 @@ EOC
 
     // Redirects list
     $contentBlock = tag_start('ul', array('id' => 'smd_redirects'));
+
+        // Pseudo table header
+        $contentBlock .= tag(
+            span(' ') . tag(
+                span(gTxt('smd_redir_source')) . span(gTxt('smd_redir_destination')),
+                'div',
+                array('class' => 'smd_redir_item')
+            ),
+            'li',
+            array(
+                'class' => 'smd_redir_title_bar smd_redir_no_drag'
+            )
+        );
+
     foreach ($redirects as $idx => $items) {
         // Redirect list items
         $contentBlock .= tag(
