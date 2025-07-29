@@ -478,6 +478,26 @@ EOC
     }
 
     $contentBlock .= n . tag_end('ul');
+
+    // Render the page UI
+    $out = n . '<div class="txp-layout">' .
+    n . tag(
+        hed(gTxt('smd_redir_tab_name'), 1, array('class' => 'txp-heading')),
+        'div', array('class' => 'txp-layout-4col-alt')
+    ) . n . $searchBlock;
+
+    $out .= tag_start('div', array(
+        'class' => 'txp-layout-1col',
+        'id'    => $smd_redir_event . '_container',
+    )).
+    n.tag($createBlock, 'div', array('class' => 'txp-layout-cell-row txp-list-head'));
+
+    $out .= $contentBlock;
+
+    $out .= n . tag_end('div') .  // End of .txp-layout-1col
+            n . tag_end('div');   // End of .txp-layout
+
+    echo $out;
 }
 
 /**
