@@ -172,8 +172,10 @@ function smd_redir($msg = '')
     $red_del = gTxt('smd_redir_deleting');
     $red_sav = gTxt('smd_redir_saving');
     $red_upd = gTxt('smd_redir_updating');
-    $red_btn_del = gTxt('delete');
-    $red_btn_sav = gTxt('save');
+    $red_btn_del_hint = gTxt('delete');
+    $red_btn_sav_hint = gTxt('save');
+    $red_btn_del = '<span class="ui-icon ui-icon-trash"></span> <span class="smd_redir_hide-on-desktop">'.gTxt('delete').'</span>';
+    $red_btn_sav = '<span class="ui-icon ui-icon-check"></span> <span class="smd_redir_hide-on-desktop">'.gTxt('save').'</span>';
 
         echo script_js(<<<EOC
 function smd_redir_togglenew() {
@@ -319,9 +321,7 @@ jQuery(function() {
         key = me.text();
         val = me.next().text();
 
-        me.html('<label for="smd_redir_src">{$red_src}</label><input type="text" id="smd_redir_src" name="smd_redir_src" value="'+key+'" />');
-        me.next().html('<label for="smd_redir_dest">{$red_dst}</label><input type="text" id="smd_redir_dest" name="smd_redir_dest" value="'+val+'" />')
-            .append('<div><button type="button" id="smd_redir_save" name="smd_redir_save" onclick="smd_redir_save();">{$red_btn_sav}</button><button type="button" id="smd_redir_delete" name="smd_redir_delete" onclick="smd_redir_delete();">{$red_btn_del}</button></div>');
+            .append('<div><button type="button" class="txp-button" id="smd_redir_save" name="smd_redir_save" onclick="smd_redir_save();" title="{$red_btn_sav_hint}">{$red_btn_sav}</button>&nbsp;<button type="button" class="txp-button" id="smd_redir_delete" name="smd_redir_delete" onclick="smd_redir_delete();" title="{$red_btn_del_hint}">{$red_btn_del}</button></div>');
         me.parent().parent().addClass('edited');
         me.find('input[name="smd_redir_src"]').focus();
     });
@@ -355,8 +355,6 @@ EOC
         'smd_redir_dest' => gTxt('smd_redir_destination'),
     );
 
-    // Remaining redirects
-    echo '<ul id="smd_redirects">';
     // Search by redirect block
     $searchForm = form(
         tag (
@@ -430,20 +428,38 @@ EOC
         array('class' => 'txp-control-panel')
     );
 
+    // Redirects list
+    $contentBlock = tag_start('ul', array('id' => 'smd_redirects'));
     foreach ($redirects as $idx => $items) {
-        echo '<li>
-            <span class="smd_redir_grab">&#8657;<br />&#8659;</span>
-            <input type="hidden" name="smd_redir_src_orig" value="' . $items['src'] . '" />
-            <input type="hidden" name="smd_redir_dest_orig" value="' . $items['dst'] . '" />
-            <div class="smd_redir_item">
-                <div class="smd_redir_src closed">' . $items['src'] . '</div>
-                <div class="smd_redir_dest">' . $items['dst'] . '</div>
-            </div>
-        </li>';
+        // Redirect list items
+        $contentBlock .= tag(
+            span(
+                '&#9776;',
+                array(
+                    'class' => 'smd_redir_grab'
+                )
+            ) . n .
+            hInput('smd_redir_src_orig', $items['src']) . n .
+            hInput('smd_redir_dest_orig', $items['dst']) . n .
+            tag(
+                tag(
+                    $items['src'],
+                    'div',
+                    array('class' => 'smd_redir_src closed')
+                ) . n .
+                tag(
+                    $items['dst'],
+                    'div',
+                    array('class' => 'smd_redir_dest')
+                ),
+                'div',
+                array('class' => 'smd_redir_item')
+            ),
+            'li'
+        );
     }
 
-    echo '</ul>';
-    echo '</div>';
+    $contentBlock .= n . tag_end('ul');
 }
 
 /**
