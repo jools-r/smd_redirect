@@ -328,7 +328,7 @@ jQuery(function() {
         me.find('input[name="smd_redir_src"]').focus();
     });
 
-    jQuery("#smd_redir_search").keyup(function(event) {
+    jQuery("#smd_redir_search").on('input', function(event) {
         // if esc is pressed or nothing is entered
         if (event.keyCode == 27 || jQuery(this).val() == '') {
             jQuery(this).val('');
@@ -357,23 +357,6 @@ EOC
         'smd_redir_dest' => gTxt('smd_redir_destination'),
     );
 
-    // Control panel
-    echo '<section class="txp-details" id="smd_redir_control_panel">';
-    echo '<h3 class="txp-summary lever'.(get_pref('pane_smd_redir_cpanel_visible') ? ' expanded' : '').'"><a href="#smd_redir_cpanel">' . gTxt('smd_redir_control_panel') . '</a></h3><div class="toggle" id="smd_redir_cpanel" role="region" style="display:'.(get_pref('pane_smd_redir_cpanel_visible') ? 'block' : 'none').'">';
-
-    echo '<form id="smd_redir_filtform" action="index.php" method="post">';
-    echo '<label for="smd_redir_search">' . gTxt('smd_redir_search') . '</label>'
-        . '<span id="smd_redir_searchby">'
-            .selectInput('smd_redir_filt', $ftypes, '', 0, '', 'smd_redir_filt')
-        . '</span>'
-        . fInput('text', 'smd_redir_search', '', '', '', '', '', '', 'smd_redir_search')
-        . $prefbtn;
-    echo eInput($smd_redir_event) . sInput('smd_redir_filter');
-    echo '</form>';
-
-    echo '</div>';
-    echo '</section>';
-
     // Redirect list
     echo n . '<div id="' . $smd_redir_event . '_container" class="txp-container txp-list">';
     echo '<form name="smd_redir_form" id="smd_redir_form" action="index.php" method="post">';
@@ -391,6 +374,30 @@ EOC
 
     // Remaining redirects
     echo '<ul id="smd_redirects">';
+    // Search by redirect block
+    $searchForm = form(
+        tag (
+            gTxt('smd_redir_search'),
+            'label', array('for' => 'smd_redir_search')
+        ) . n .
+        tag(
+            selectInput('smd_redir_filt', $ftypes, '', 0, '', 'smd_redir_filt'),
+            'span', array('id' => 'smd_redir_searchby')
+        ) . n .
+        fInput('search', 'smd_redir_search', '', '', '', '', '', '', 'smd_redir_search') . n .
+        eInput($smd_redir_event) . sInput('smd_redir_filter')
+        , '', '', 'post', '', '', 'smd_redir_filtform'
+    );
+
+    $searchBlock =
+    n . tag(
+        $searchForm,
+        'div', array(
+                'class' => 'txp-layout-4col-3span',
+                'id'    => $smd_redir_event . '_control',
+            )
+        );
+
 
     foreach ($redirects as $idx => $items) {
         echo '<li>
