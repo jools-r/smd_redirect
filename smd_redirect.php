@@ -160,10 +160,6 @@ function smd_redir($msg = '')
     // Grab the latest redirect points
     $redirects = smd_redir_get(1);
 
-    // Set up the buttons and column info
-    $newbtn = '<a class="navlink btnnew" href="#">' . gTxt('smd_redir_btn_new') . '</a>';
-    $status = '<span id="smd_redir_status"></span>';
-
     $qs = array(
         "event" => $smd_redir_event,
     );
@@ -357,21 +353,6 @@ EOC
         'smd_redir_dest' => gTxt('smd_redir_destination'),
     );
 
-    // Redirect list
-    echo n . '<div id="' . $smd_redir_event . '_container" class="txp-container txp-list">';
-    echo '<form name="smd_redir_form" id="smd_redir_form" action="index.php" method="post">';
-    echo '<ul id="smd_redir_btnpanel">';
-    echo n . '<li id="smd_redir_buttons">' . $newbtn . sp . $status . '</li>';
-    echo '<li id="smd_redir_create" class="smd_hidden">'
-            . '<label for="smd_redir_newsource">' . gTxt('smd_redir_source') . '</label>' . fInput('text', 'smd_redir_newsource', '', 'smd_focus', '', '', '70', '' ,'smd_redir_newsource')
-            . br . '<label for="smd_redir_destination">' . gTxt('smd_redir_destination') . '</label>' . fInput('text', 'smd_redir_destination', '', '', '', '', '70', '' ,'smd_redir_destination')
-            . fInput('submit', 'smd_redir_add', gTxt('add'), 'smallerbox', '', '', '', '', 'smd_redir_add')
-            . eInput($smd_redir_event)
-            . sInput('smd_redir_create')
-            . tInput();
-    echo '</li></ul>';
-    echo '</form>';
-
     // Remaining redirects
     echo '<ul id="smd_redirects">';
     // Search by redirect block
@@ -398,6 +379,54 @@ EOC
             )
         );
 
+    // Add new redirect block
+    $createForm = tag(
+        form(
+            inputLabel(
+                'smd_redir_newsource',
+                fInput('text', 'smd_redir_newsource', '', 'smd_focus', '', '', INPUT_LARGE, '', 'smd_redir_newsource'),
+                gTxt('smd_redir_source'), '', array('class' => 'txp-form-field smd_redir_newsource')
+            ).
+            inputLabel(
+                'smd_redir_destination',
+                fInput('text', 'smd_redir_destination', '', '', '', '', INPUT_LARGE, '', 'smd_redir_destination'),
+                gTxt('smd_redir_destination'), '', array('class' => 'txp-form-field smd_redir_destination')
+            ).
+            tag(
+                fInput('submit', 'smd_redir_add', gTxt('add'), 'publish', '', '', '', '', 'smd_redir_add').
+                eInput($smd_redir_event).
+                sInput('smd_redir_create').
+                tInput(),
+                'p',
+                array(
+                    'class' => 'txp-edit-actions'
+                )
+            ),
+            '', '', 'post', 'txp-edit', '', 'smd_redir_form'
+        ),
+        'div',
+        array(
+            'class' => 'txp-control-panel smd_hidden',
+            'id' => 'smd_redir_create'
+        )
+    );
+
+    $createBlock = n . tag(
+        tag(
+            gTxt('smd_redir_btn_new'),
+            'a', array(
+                'href' => '#',
+                'class' => 'txp-button btnnew'
+            )
+        ) .
+        tag(
+            '&nbsp;',
+            'span', array('id' => 'smd_redir_status')
+        ) . n .
+        $createForm,
+        'div',
+        array('class' => 'txp-control-panel')
+    );
 
     foreach ($redirects as $idx => $items) {
         echo '<li>
