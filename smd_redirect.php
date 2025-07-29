@@ -59,7 +59,6 @@ $plugin['textpack'] = <<<EOT
 #@language en, en-ca, en-gb, en-us
 smd_redir_added => Redirect added
 smd_redir_btn_new => New redirect
-smd_redir_btn_pref => Prefs
 smd_redir_control_panel => Control panel
 smd_redir_deleting => Deleting...
 smd_redir_destination => Destination
@@ -109,7 +108,6 @@ function smd_redir_dispatcher($evt, $stp)
         'smd_redir'        => false,
         'smd_redir_create' => true,
         'smd_redir_save'   => true,
-        'smd_redir_prefs'  => false,
         'save_pane_state'  => true,
     );
 
@@ -175,7 +173,6 @@ function smd_redir($msg = '')
 
     // Set up the buttons and column info
     $newbtn = '<a class="navlink btnnew" href="#">' . gTxt('smd_redir_btn_new') . '</a>';
-    $prefbtn = '<a class="navlink btnpref" href="?event=' . $smd_redir_event . a . 'step=smd_redir_prefs">' . gTxt('smd_redir_btn_pref').'</a>';
     $status = '<span id="smd_redir_status"></span>';
 
     $qs = array(
@@ -518,17 +515,6 @@ function smd_redir_unserialize($txt)
 function smd_redir_check_crush()
 {
     return (function_exists('gzcompress') && function_exists('gzuncompress'));
-}
-
-/**
- * Prefs panel.
- *
- * @todo
- */
-function smd_redir_prefs($msg='')
-{
-    pagetop(gTxt('smd_redir_tab_name'), $msg);
-    echo '<p>Coming soon</p>';
 }
 
 /**
