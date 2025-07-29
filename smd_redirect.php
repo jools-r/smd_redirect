@@ -243,7 +243,9 @@ function smd_redir_post() {
             var dest = me.find('.smd_redir_dest').text();
         }
 
-        data.push({ orig: orig, from: from, dest: dest });
+        if ((from && from.length > 0) && (dest && dest.length > 0)) {
+            data.push({ orig: orig, from: from, dest: dest });
+        }
     });
 
     // ... and send the entire lot off to be stored
