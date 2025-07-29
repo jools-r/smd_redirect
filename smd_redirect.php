@@ -532,17 +532,6 @@ function smd_redir_prefs($msg='')
 }
 
 /**
- * Change and store qty-per-page value.
- *
- * @todo Needed any more?
- */
-function smd_redir_change_pageby()
-{
-    event_change_pageby('smd_redir');
-    smd_redir();
-}
-
-/**
  * The search dropdown list.
  *
  * @param string $crit   Search criteria
