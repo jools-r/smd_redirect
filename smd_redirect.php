@@ -59,7 +59,6 @@ $plugin['textpack'] = <<<EOT
 #@language en, en-ca, en-gb, en-us
 smd_redir_added => Redirect added
 smd_redir_btn_new => New redirect
-smd_redir_control_panel => Control panel
 smd_redir_deleting => Deleting...
 smd_redir_destination => Destination
 smd_redir_err_need_source => You must supply a source URL
@@ -108,12 +107,9 @@ function smd_redir_dispatcher($evt, $stp)
         'smd_redir'        => false,
         'smd_redir_create' => true,
         'smd_redir_save'   => true,
-        'save_pane_state'  => true,
     );
 
-    if ($stp == 'save_pane_state') {
-        smd_redir_save_pane_state();
-    } elseif (!$stp or !bouncer($stp, $available_steps)) {
+    if (!$stp or !bouncer($stp, $available_steps)) {
         $stp = $smd_redir_event;
     }
 
@@ -141,16 +137,9 @@ function smd_redir_css($evt = '', $stp = '')
               #smd_redirects li.edited { font-size:140%; }
               .smd_redir_item label { width:6.2em; display:inline-block; }
               .smd_redir_item input { width:70%; }
-              #smd_redir_btnpanel li { list-style-type:none; }
               .smd_redir_grab { float:right; font-size:115%; }
               .placeHolder div { background-color:white !important; border:dashed 1px gray !important; }
-              #smd_redir_cpanel form { margin:10px; }
-              #smd_redir_cpanel form label { margin:0 6px; }
               .fieldset_inner { background-image:none; background-color:transparent; border:0; }
-              #smd_redir_cpanel select, #smd_redir_cpanel input[type="text"] { margin-bottom:10px; }
-              #smd_redir_cpanel input[type="text"] { padding:3px; }
-              #smd_redir_control_panel { margin:0 auto 20px; width:600px; }
-                 .btnpref { float:right; }',
         );
 
         echo '<style type="text/css">' . $smd_redir_styles['list'] . '</style>';
@@ -358,7 +347,7 @@ jQuery(function() {
     });
 });
 EOC
-    );
+);
 
     // Inject Drag n drop jQuery interface
     echo smd_redir_dragdrop();
@@ -515,24 +504,6 @@ function smd_redir_unserialize($txt)
 function smd_redir_check_crush()
 {
     return (function_exists('gzcompress') && function_exists('gzuncompress'));
-}
-
-/**
- * Save the state of the twisties.
- *
- * @todo Not needed from 4.6+
- */
-function smd_redir_save_pane_state()
-{
-    $panes = array('smd_redir_cpanel');
-    $pane = gps('pane');
-
-    if (in_array($pane, $panes)) {
-        set_pref("pane_{$pane}_visible", (gps('visible') == 'true' ? '1' : '0'), 'smd_redir', PREF_HIDDEN, 'yesnoradio', 0, PREF_PRIVATE);
-        send_xml_response();
-    } else {
-        send_xml_response(array('http-status' => '400 Bad Request'));
-    }
 }
 
 /**
