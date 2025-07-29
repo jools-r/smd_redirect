@@ -532,24 +532,6 @@ function smd_redir_prefs($msg='')
 }
 
 /**
- * The search dropdown list.
- *
- * @param string $crit   Search criteria
- * @param string $method Search method (field) to search against
- */
-function smd_redir_search_form($crit, $method)
-{
-    global $smd_redir_event;
-
-    $methods = array(
-        'source'      => gTxt('smd_redir_source'),
-        'destination' => gTxt('smd_redir_destination'),
-    );
-
-    return search_form($smd_redir_event, '', $crit, $methods, $method, 'source');
-}
-
-/**
  * Save the state of the twisties.
  *
  * @todo Not needed from 4.6+
