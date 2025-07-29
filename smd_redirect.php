@@ -67,6 +67,17 @@ smd_redir_search => Search
 smd_redir_source => Source
 smd_redir_tab_name => Redirects
 smd_redir_updating => Updating...
+#@language de
+smd_redir_added => Weiterleitung hinzugefügt
+smd_redir_btn_new => Neue Weiterleitung
+smd_redir_deleting => Löschen...
+smd_redir_destination => Ziel
+smd_redir_err_need_source => Sie müssen eine Quell-URL angeben
+smd_redir_saving => Speichern...
+smd_redir_search => Suchen
+smd_redir_source => Von
+smd_redir_tab_name => Weiterleitungen
+smd_redir_updating => Aktualisieren...
 EOT;
 
 if (!defined('txpinterface'))
