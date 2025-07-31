@@ -366,8 +366,10 @@ jQuery(function() {
         me.find('input[name="smd_redir_src"]').focus();
     });
 
+    // Search panel
     jQuery("#smd_redir_search").on('input', function(event) {
-        // if esc is pressed or nothing is entered
+        // If esc is pressed or nothing is entered
+
         if (event.keyCode == 27 || jQuery(this).val() == '') {
             jQuery(this).val('');
             jQuery("#smd_redirects li").show();
@@ -378,6 +380,7 @@ jQuery(function() {
         }
     });
 
+    // Search filter dropdown
     jQuery("#smd_redir_filt").change(function(event) {
         if (jQuery('#smd_redir_search').val() == '') {
             jQuery("#smd_redirects li").show();
@@ -386,8 +389,7 @@ jQuery(function() {
         }
     });
 });
-EOC
-);
+EOC);
 
     // Inject Drag n drop jQuery interface
     echo smd_redir_dragdrop();
@@ -400,6 +402,10 @@ EOC
 
     // Search by redirect block
     $searchForm = form(
+        span(
+            href(gTxt('search_clear'), array('event' => $smd_redir_event)),
+            array('class' => 'txp-search-clear ui-helper-hidden')
+        ) .
         tag (
             gTxt('smd_redir_search'),
             'label', array('for' => 'crit')
