@@ -223,7 +223,6 @@ function smd_redir_togglenew() {
     } else {
         box.hide();
     }
-    jQuery("input.smd_focus").focus();
     return false;
 }
 
@@ -436,7 +435,7 @@ EOC);
         form(
             inputLabel(
                 'smd_redir_newsource',
-                fInput('text', 'smd_redir_newsource', '', 'smd_focus', '', '', INPUT_LARGE, '', 'smd_redir_newsource'),
+                fInput('text', 'smd_redir_newsource', '', '', '', '', INPUT_LARGE, '', 'smd_redir_newsource'),
                 gTxt('smd_redir_source'), '', array('class' => 'txp-form-field smd_redir_newsource')
             ).
             inputLabel(
