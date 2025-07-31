@@ -338,7 +338,7 @@ jQuery(function() {
 
     jQuery("#smd_redirects").dragsort({
         dragSelector: ".smd_redir_grab",
-        dragSelectorExclude: ".smd_redir_no_drag",
+        dragSelectorExclude: ".smd_redir_no_drag, input",
         itemSelector: "li:not(.smd_redir_no_drag)",
         dragEnd: function() {
             jQuery('#smd_redir_status').text('{$red_upd}');
