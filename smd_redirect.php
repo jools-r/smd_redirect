@@ -58,6 +58,7 @@ $plugin['textpack'] = <<<EOT
 #@smd_redir
 #@language en, en-ca, en-gb, en-us
 smd_redir_added => Redirect added
+smd_redir_both => Both
 smd_redir_btn_new => New redirect
 smd_redir_deleting => Deleting...
 smd_redir_destination => Destination
@@ -69,6 +70,7 @@ smd_redir_tab_name => Redirects
 smd_redir_updating => Updating...
 #@language de
 smd_redir_added => Weiterleitung hinzugefügt
+smd_redir_both => Beides
 smd_redir_btn_new => Neue Weiterleitung
 smd_redir_deleting => Löschen...
 smd_redir_destination => Ziel
@@ -314,7 +316,7 @@ function smd_redir_filter(selector, query, nam, csense, exact) {
     }
     var re = new RegExp(query, csense);
     jQuery(selector).each(function() {
-        sel = (typeof nam=="undefined" || nam=='') ? jQuery(this) : jQuery(this).find("."+nam+"");
+        sel = (typeof nam=="undefined" || nam=='' || nam=='smd_redir_both') ? jQuery(this) : jQuery(this).find("."+nam+"");
         if (query == '') {
             if (sel.length == 1 && sel.text() == '') {
                 jQuery(this).show();
@@ -393,6 +395,7 @@ EOC
     $ftypes = array(
         'smd_redir_src'  => gTxt('smd_redir_source'),
         'smd_redir_dest' => gTxt('smd_redir_destination'),
+        'smd_redir_both' => gTxt('smd_redir_both'),
     );
 
     // Search by redirect block
