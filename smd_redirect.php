@@ -283,6 +283,9 @@ function smd_redir_post() {
 
         if ((from && from.length > 0) && (dest && dest.length > 0)) {
             data.push({ orig: orig, from: from, dest: dest });
+            // update original values in DOM after save
+            me.find('[name=smd_redir_src_orig]').val(from);
+            me.find('[name=smd_redir_dest_orig]').val(dest);
         }
     });
 
