@@ -230,11 +230,11 @@ function smd_redir_togglenew() {
 function smd_redir_unedit() {
     jQuery('#smd_redirects li.edited').each(function() {
         var me = jQuery(this);
-        me.removeClass('edited');
+        me.removeClass('edited').addClass('closed');
         ke = me.find('input[name="smd_redir_src_orig"]').val();
         vl = me.find('input[name="smd_redir_dest_orig"]').val();
 
-        me.find('.smd_redir_item').html('<div class="smd_redir_src closed">' + ke + '</div><div class="smd_redir_dest">' + vl + '</div>');
+        me.find('.smd_redir_item').html('<div class="smd_redir_src">' + ke + '</div><div class="smd_redir_dest">' + vl + '</div>');
     });
 }
 
@@ -248,8 +248,8 @@ function smd_redir_save() {
     ke = obj.find('input[name=smd_redir_src]').val();
     vl = obj.find('input[name=smd_redir_dest]').val();
 
-    obj.find('.smd_redir_item').html('<div class="smd_redir_src closed">' + ke + '</div><div class="smd_redir_dest">' + vl + '</div>');
-    obj.removeClass('edited');
+    obj.find('.smd_redir_item').html('<div class="smd_redir_src">' + ke + '</div><div class="smd_redir_dest">' + vl + '</div>');
+    obj.removeClass('edited').addClass('closed');
 
     smd_redir_post();
 }
@@ -510,7 +510,7 @@ EOC);
                 tag(
                     $items['src'],
                     'div',
-                    array('class' => 'smd_redir_src closed')
+                    array('class' => 'smd_redir_src')
                 ) . n .
                 tag(
                     $items['dst'],
@@ -520,7 +520,10 @@ EOC);
                 'div',
                 array('class' => 'smd_redir_item')
             ),
-            'li'
+            'li',
+            array(
+                'class' => 'closed'
+            )
         );
     }
 
