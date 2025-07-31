@@ -353,19 +353,35 @@ jQuery(function() {
         placeHolderTemplate: "<li class='placeHolder'><div></div></li>"
     });
 
-    jQuery("#smd_redirects").on('click', '.smd_redir_src.closed', function() {
-        var me = jQuery(this);
-        me.toggleClass('closed');
+    jQuery("#smd_redirects").on('click', '.btnaction', function() {
+        var btn = jQuery(this);
+        var wrapper = btn.parent();
+        var itemSrc = wrapper.find('.smd_redir_src');
+        var itemDest = wrapper.find('.smd_redir_dest');
         smd_redir_unedit();
 
-        key = me.text();
-        val = me.next().text();
+        key = itemSrc.text();
+        val = itemSrc.next().text();
 
-        me.html('<label for="smd_redir_src" class="txp-accessibility">{$red_src}</label><input type="text" id="smd_redir_src" name="smd_redir_src" value="'+key+'" />');
-        me.next().html('<label for="smd_redir_dest" class="txp-accessibility">{$red_dst}</label><input type="text" id="smd_redir_dest" name="smd_redir_dest" value="'+val+'" />')
-            .append('<div><button type="button" class="txp-button" id="smd_redir_save" name="smd_redir_save" onclick="smd_redir_save();" title="{$red_btn_sav_hint}">{$red_btn_sav}</button>&nbsp;<button type="button" class="txp-button" id="smd_redir_delete" name="smd_redir_delete" onclick="smd_redir_delete();" title="{$red_btn_del_hint}">{$red_btn_del}</button></div>');
-        me.parent().parent().addClass('edited');
-        me.find('input[name="smd_redir_src"]').focus();
+        // edit action
+        if (btn.hasClass('btnedit')) {
+            wrapper.removeClass('closed');
+            itemSrc.html('<label for="smd_redir_src" class="txp-accessibility">{$red_src}</label><input type="text" id="smd_redir_src" name="smd_redir_src" value="'+key+'">');
+            itemDest.html('<label for="smd_redir_dest" class="txp-accessibility">{$red_dst}</label><input type="text" id="smd_redir_dest" name="smd_redir_dest" value="'+val+'">')
+                .append('<div><button type="button" class="txp-button" id="smd_redir_save" name="smd_redir_save" onclick="smd_redir_save();" title="{$red_btn_sav_hint}">{$red_btn_sav}</button>&nbsp;<button type="button" class="txp-button" id="smd_redir_delete" name="smd_redir_delete" onclick="smd_redir_delete();" title="{$red_btn_del_hint}">{$red_btn_del}</button>');
+            wrapper.addClass('edited');
+            itemSrc.find('input[name="smd_redir_src"]').focus();
+        }
+        // close action = exit without saving
+        if (btn.hasClass('btnclose')) {
+            // Reset field values to pre-edited state
+            var origSrc = wrapper.find('[name=smd_redir_src_orig]').val();
+            var origDest = wrapper.find('[name=smd_redir_dest_orig]').val();
+            jQuery('#smd_redir_src').val(origSrc);
+            jQuery('#smd_redir_dest').val(origDest);
+            // Return to unedited state
+            smd_redir_unedit();
+        }
     });
 
     // Search panel
@@ -519,6 +535,39 @@ EOC);
                 ),
                 'div',
                 array('class' => 'smd_redir_item')
+            ) . n .
+            tag(
+                span(' ', array(
+                        'class' => 'ui-icon ui-icon-pencil'
+                    )
+                ) .
+                span(
+                    gTxt('edit'),
+                    array(
+                        'class' => 'smd_redir_hide-on-desktop'
+                    )
+                ),
+                'button', array(
+                    'href' => '#',
+                    'class' => 'txp-reduced-ui-button btnaction btnedit'
+                )
+            )
+            . n .
+            tag(
+                span(' ', array(
+                        'class' => 'ui-icon ui-icon-close'
+                    )
+                ) .
+                span(
+                    gTxt('close'),
+                    array(
+                        'class' => 'smd_redir_hide-on-desktop'
+                    )
+                ),
+                'button', array(
+                    'href' => '#',
+                    'class' => 'txp-reduced-ui-button btnaction btnclose'
+                )
             ),
             'li',
             array(
