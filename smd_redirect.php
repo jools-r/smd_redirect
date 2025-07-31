@@ -369,8 +369,10 @@ jQuery(function() {
         if (event.keyCode == 27 || jQuery(this).val() == '') {
             jQuery(this).val('');
             jQuery("#smd_redirects li").show();
+            jQuery('.txp-search-clear').addClass('ui-helper-hidden');
         } else {
             smd_redir_filter('#smd_redirects li', jQuery(this).val(), jQuery("#smd_redir_filt").val(), 0, 0);
+            jQuery('.txp-search-clear').removeClass('ui-helper-hidden');
         }
     });
 
@@ -397,13 +399,13 @@ EOC
     $searchForm = form(
         tag (
             gTxt('smd_redir_search'),
-            'label', array('for' => 'smd_redir_search')
+            'label', array('for' => 'crit')
         ) . n .
         tag(
             selectInput('smd_redir_filt', $ftypes, '', 0, '', 'smd_redir_filt'),
             'span', array('id' => 'smd_redir_searchby')
         ) . n .
-        fInput('search', 'smd_redir_search', '', '', '', '', '', '', 'smd_redir_search') . n .
+        fInput('search', 'crit', '', '', '', '', '', '', 'smd_redir_search') . n .
         eInput($smd_redir_event) . sInput('smd_redir_filter')
         , '', '', 'post', '', '', 'smd_redir_filtform'
     );
